@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beauty's Jewelry Collection</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Site Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     HEADER / NAVIGATION
+══════════════════════════════════════════════════ -->
+<header id="header">
+  <div class="header-inner">
+
+    <!-- Hamburger (mobile) -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Logo -->
+    <a href="#home" class="logo">
+      <div class="logo-icon">💎</div>
+      <div class="logo-text">
+        <span>Beauty's Jewelry</span>
+        <span>Collection</span>
+      </div>
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav class="desktop-nav">
+      <a href="#home">    <i class="fas fa-house"></i>     Home</a>
+      <a href="#products"><i class="fas fa-gem"></i>       Shop</a>
+      <a href="#about">   <i class="fas fa-star"></i>      About</a>
+      <a href="#contact"> <i class="fas fa-envelope"></i>  Contact</a>
+
+      <!-- Admin link (icon changes when logged in) -->
+      <a href="#" id="adminNavLink" class="admin-nav-link">
+        <i class="fas fa-lock"></i> Admin
+      </a>
+
+      <!-- Cart -->
+      <button class="cart-btn" id="cartBtn" aria-label="Shopping cart">
+        <i class="fas fa-bag-shopping"></i>
+        <span>Cart</span>
+        <div class="cart-count" id="cartCount">0</div>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#home"     onclick="closeDrawer()"><i class="fas fa-house"></i>     Home</a>
+  <a href="#products" onclick="closeDrawer()"><i class="fas fa-gem"></i>       Shop</a>
+  <a href="#about"    onclick="closeDrawer()"><i class="fas fa-star"></i>      About</a>
+  <a href="#contact"  onclick="closeDrawer()"><i class="fas fa-envelope"></i>  Contact</a>
+  <a href="#" id="adminMobileLink" onclick="closeDrawer()">
+    <i class="fas fa-lock"></i> Admin
+  </a>
+  <div style="margin-top:auto;padding-top:32px;display:flex;gap:12px">
+    <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-gem">💎</div>
+  <div class="hero-gem">✨</div>
+  <div class="hero-gem">💍</div>
+  <div class="hero-gem">⭐</div>
+  <div class="hero-gem">🌟</div>
+
+  <div class="hero-content">
+    <div class="hero-badge">✦ Premium Jewelry Collection ✦</div>
+    <h1 class="hero-title">Wear Your <em>Story</em><br>in Every Piece</h1>
+    <p class="hero-subtitle">
+      Handcrafted jewelry that celebrates beauty, elegance, and the woman you are.
+      Explore our curated collection of earrings, necklaces, gold &amp; silver pieces.
+    </p>
+    <div class="hero-cta">
+      <a href="#products" class="btn-primary">Shop Collection</a>
+      <a href="#about"    class="btn-outline">Our Story</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     CATEGORY FILTER TABS
+══════════════════════════════════════════════════ -->
+<div class="categories-section">
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all">All Pieces</button>
+    <button class="filter-tab" data-filter="earrings">Earrings</button>
+    <button class="filter-tab" data-filter="necklaces">Necklaces</button>
+    <button class="filter-tab" data-filter="gold">Gold Jewelry</button>
+    <button class="filter-tab" data-filter="silver">Silver Jewelry</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     PRODUCTS SECTION
+══════════════════════════════════════════════════ -->
+<section class="products-section" id="products">
+  <div class="section-header reveal">
+    <div class="section-tag">✦ Our Collection ✦</div>
+    <h2 class="section-title">Curated <em>Elegance</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <!-- Products are injected here by script.js -->
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     ABOUT SECTION
+══════════════════════════════════════════════════ -->
+<section class="about-section" id="about">
+  <div class="about-grid">
+
+    <div class="about-text reveal from-left">
+      <div class="section-tag">✦ Our Story ✦</div>
+      <h2 class="section-title" style="text-align:left">
+        Crafting <em>Beauty</em><br>Since 2015
+      </h2>
+      <div class="section-line" style="margin-left:0"></div>
+      <p class="about-desc">
+        Beauty's Jewelry Collection was born from a deep love for craftsmanship and feminine elegance.
+        Based in the heart of Lagos, we handpick and curate only the finest jewelry pieces — from lustrous
+        gold to pristine silver, bold earrings to delicate necklaces.
+      </p>
+      <p class="about-desc" style="margin-top:0">
+        Every piece tells a story. Every detail matters. We believe jewelry isn't just an accessory —
+        it's an expression of your identity, your confidence, and your grace.
+      </p>
+      <div class="about-stats">
+        <div class="stat-item"><span class="stat-num">500+</span><span class="stat-label">Pieces</span></div>
+        <div class="stat-item"><span class="stat-num">2K+</span><span class="stat-label">Customers</span></div>
+        <div class="stat-item"><span class="stat-num">9+</span><span class="stat-label">Years</span></div>
+      </div>
+    </div>
+
+    <div class="about-visual reveal from-right">
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80" alt="Jewelry display" loading="lazy">
+      </div>
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80" alt="Necklace" style="min-height:150px" loading="lazy">
+      </div>
+      <div class="about-img">
+        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80" alt="Gold ring" style="min-height:150px" loading="lazy">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════════════ -->
+<section class="testimonials-section">
+  <div class="section-header reveal">
+    <div class="section-tag">✦ Happy Customers ✦</div>
+    <h2 class="section-title">What They <em>Say</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="testimonials-grid container">
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        I ordered a gold necklace and it arrived looking even more stunning than the photos.
+        The quality is exceptional and the packaging was so elegant. I'll definitely order again!
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">A</div>
+        <div>
+          <div class="author-name">Adaeze Okonkwo</div>
+          <div class="author-location">Lagos, Nigeria</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        Beauty's Jewelry is my go-to for all special occasions. The earrings I got for my wedding
+        were absolutely breathtaking. Everyone kept asking where I got them from!
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">F</div>
+        <div>
+          <div class="author-name">Fatima Bello</div>
+          <div class="author-location">Abuja, Nigeria</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-3">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">
+        Fast delivery and authentic pieces. I love the silver bracelet — lightweight yet luxurious.
+        Customer service was super responsive via WhatsApp. 10/10!
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">C</div>
+        <div>
+          <div class="author-name">Chidinma Eze</div>
+          <div class="author-location">Port Harcourt, Nigeria</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER / CONTACT
+══════════════════════════════════════════════════ -->
+<footer id="contact">
+  <div class="footer-inner">
+
+    <div class="footer-brand reveal from-left">
+      <a href="#home" class="logo">
+        <div class="logo-icon">💎</div>
+        <div class="logo-text">
+          <span>Beauty's Jewelry</span>
+          <span>Collection</span>
+        </div>
+      </a>
+      <p class="footer-tagline">
+        Handcrafted elegance for every woman. Discover pieces that tell your story
+        and celebrate your unique beauty.
+      </p>
+      <div class="social-links">
+        <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-col reveal reveal-delay-1">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Shop</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col reveal reveal-delay-2">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="#products">Earrings</a></li>
+        <li><a href="#products">Necklaces</a></li>
+        <li><a href="#products">Gold Jewelry</a></li>
+        <li><a href="#products">Silver Jewelry</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col reveal reveal-delay-3">
+      <h4>Contact Us</h4>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>No 7, Kola Adeyeye Street, Estate, CMD Road, Lagos</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>No 10, Dare Street, Ikotun, Lagos</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <span><a href="tel:+2348107106032" style="color:inherit;text-decoration:none">+234 810 710 6032</a></span>
+      </div>
+      <div class="contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <span><a href="https://wa.me/2348107106032" style="color:inherit;text-decoration:none">Chat on WhatsApp</a></span>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Beauty's Jewelry Collection. All rights reserved. Made with 💎 in Lagos.</p>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════
+     FLOATING WHATSAPP BUTTON
+══════════════════════════════════════════════════ -->
+<a class="whatsapp-fab"
+   href="https://wa.me/2348107106032?text=Hello%20Beauty's%20Jewelry%20Collection!%20I'd%20like%20to%20make%20an%20enquiry."
+   target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+  <div class="whatsapp-tooltip">Chat with us on WhatsApp</div>
+</a>
+
+
+<!-- ══════════════════════════════════════════════════
+     CART SIDEBAR
+══════════════════════════════════════════════════ -->
+<div class="cart-sidebar" id="cartSidebar" aria-label="Shopping cart">
+  <div class="cart-header">
+    <h3>💎 Your Cart</h3>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <i class="fas fa-shopping-bag"></i>
+      <p>Your cart is empty</p>
+      <p style="font-size:.82rem;margin-top:8px">Add some beautiful pieces!</p>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">₦0</span>
+    </div>
+    <button class="cart-checkout" onclick="checkout()">Proceed to Checkout via WhatsApp</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     TOAST NOTIFICATION
+══════════════════════════════════════════════════ -->
+<div class="toast" id="toast" role="alert"></div>
+
+
+<!-- ══════════════════════════════════════════════════
+     ADMIN OVERLAY  (login + panel share one overlay)
+══════════════════════════════════════════════════ -->
+<div class="admin-overlay" id="adminOverlay">
+
+  <!-- ── ADMIN LOGIN BOX ── -->
+  <div class="admin-login-box" id="adminLoginBox">
+    <button class="modal-close" onclick="closeAdmin()" aria-label="Close">&times;</button>
+    <h2>💎 Admin Login</h2>
+    <p>Sign in to manage your jewelry collection</p>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="adminEmail">Email Address</label>
+        <input type="email" id="adminEmail" placeholder="admin@beautyjewelry.com" required>
+      </div>
+      <div class="form-group">
+        <label for="adminPassword">Password</label>
+        <input type="password" id="adminPassword" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="login-btn">Sign In</button>
+      <div class="login-error" id="adminLoginError"></div>
+    </form>
+  </div>
+
+  <!-- ── ADMIN PANEL (shown after login) ── -->
+  <div class="admin-panel" id="adminPanelBox" style="display:none">
+    <div class="admin-panel-header">
+      <h2>💎 Admin Panel</h2>
+      <div class="admin-panel-header-actions">
+        <button class="admin-logout-btn" id="logoutBtn">
+          <i class="fas fa-right-from-bracket"></i> Logout
+        </button>
+        <button class="modal-close" onclick="closeAdmin()" style="color:rgba(255,255,255,.7)">&times;</button>
+      </div>
+    </div>
+
+    <div class="admin-panel-body">
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="add">
+          <i class="fas fa-plus-circle"></i> Add Product
+        </button>
+        <button class="admin-tab" data-tab="manage">
+          <i class="fas fa-list"></i> Manage Products
+        </button>
+      </div>
+
+      <!-- ── TAB: ADD PRODUCT ── -->
+      <div class="admin-tab-content active" data-tab="add">
+        <form class="add-product-form" id="addProductForm" novalidate>
+          <h3>Add New Product</h3>
+
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label>Product Image</label>
+            <div class="image-upload-area">
+              <input type="file" id="productImageInput" accept="image/*">
+              <i class="fas fa-cloud-arrow-up"></i>
+              <p>Click or drag an image here</p>
+              <img id="imagePreview" class="upload-preview" alt="Preview">
+            </div>
+            <div class="upload-progress" id="uploadProgress">
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+              </div>
+              <div class="progress-text" id="progressText">Uploading… 0%</div>
+            </div>
+          </div>
+
+          <!-- Name & Category -->
+          <div class="form-group form-row">
+            <div>
+              <label for="productName">Product Name</label>
+              <input type="text" id="productName" placeholder="e.g. Gold Hoop Earrings" required>
+            </div>
+            <div>
+              <label for="productCategory">Category</label>
+              <select id="productCategory">
+                <option value="earrings">Earrings</option>
+                <option value="necklaces">Necklaces</option>
+                <option value="gold">Gold Jewelry</option>
+                <option value="silver">Silver Jewelry</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Price & Old Price -->
+          <div class="form-group form-row">
+            <div>
+              <label for="productPrice">Price (₦)</label>
+              <input type="number" id="productPrice" placeholder="e.g. 25000" required min="0">
+            </div>
+            <div>
+              <label for="productOldPrice">Old Price (₦) — optional</label>
+              <input type="number" id="productOldPrice" placeholder="e.g. 35000" min="0">
+            </div>
+          </div>
+
+          <!-- Badge & Is New -->
+          <div class="form-group form-row">
+            <div>
+              <label for="productBadge">Badge Text — optional</label>
+              <input type="text" id="productBadge" placeholder="e.g. Sale, Hot, Limited">
+            </div>
+            <div style="display:flex;align-items:flex-end;padding-bottom:4px;gap:10px">
+              <input type="checkbox" id="productIsNew" style="width:18px;height:18px;accent-color:var(--purple)">
+              <label for="productIsNew" style="text-transform:none;letter-spacing:0;font-size:.92rem;color:var(--text)">Mark as <strong>New Arrival</strong></label>
+            </div>
+          </div>
+
+          <button type="submit" class="form-submit-btn">
+            <i class="fas fa-plus"></i> Add Product
+          </button>
+        </form>
+      </div>
+
+      <!-- ── TAB: MANAGE PRODUCTS ── -->
+      <div class="admin-tab-content" data-tab="manage">
+        <div style="overflow-x:auto">
+          <table class="admin-products-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name / Category</th>
+                <th>Price</th>
+                <th>Old Price</th>
+                <th>Badge</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted)">
+                Log in to see products
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /admin-panel-body -->
+  </div><!-- /admin-panel -->
+
+</div><!-- /admin-overlay -->
+
+
+<!-- ══════════════════════════════════════════════════
+     EDIT PRODUCT MODAL
+══════════════════════════════════════════════════ -->
+<div class="admin-overlay" id="editOverlay">
+  <div class="edit-modal">
+    <button class="modal-close" onclick="closeEditModal()" aria-label="Close">&times;</button>
+    <h3>✏️ Edit Product</h3>
+    <input type="hidden" id="editProductId">
+
+    <form id="editForm" novalidate>
+      <!-- New image (optional) -->
+      <div class="form-group">
+        <label>Replace Image — optional</label>
+        <div class="image-upload-area" style="padding:18px">
+          <input type="file" id="editProductImageInput" accept="image/*">
+          <i class="fas fa-image" style="font-size:1.4rem"></i>
+          <p style="font-size:.82rem">Click to choose a new image</p>
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div>
+          <label for="editProductName">Product Name</label>
+          <input type="text" id="editProductName" required>
+        </div>
+        <div>
+          <label for="editProductCategory">Category</label>
+          <select id="editProductCategory">
+            <option value="earrings">Earrings</option>
+            <option value="necklaces">Necklaces</option>
+            <option value="gold">Gold Jewelry</option>
+            <option value="silver">Silver Jewelry</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div>
+          <label for="editProductPrice">Price (₦)</label>
+          <input type="number" id="editProductPrice" required min="0">
+        </div>
+        <div>
+          <label for="editProductOldPrice">Old Price (₦)</label>
+          <input type="number" id="editProductOldPrice" min="0">
+        </div>
+      </div>
+
+      <div class="form-group form-row">
+        <div>
+          <label for="editProductBadge">Badge Text</label>
+          <input type="text" id="editProductBadge" placeholder="Sale, Hot…">
+        </div>
+        <div style="display:flex;align-items:flex-end;padding-bottom:4px;gap:10px">
+          <input type="checkbox" id="editProductIsNew" style="width:18px;height:18px;accent-color:var(--purple)">
+          <label for="editProductIsNew" style="text-transform:none;letter-spacing:0;font-size:.92rem">Mark as New</label>
+        </div>
+      </div>
+
+      <button type="submit" class="form-submit-btn">
+        <i class="fas fa-floppy-disk"></i> Save Changes
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SCRIPTS
+     type="module" is required for Firebase ES imports
+══════════════════════════════════════════════════ -->
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
