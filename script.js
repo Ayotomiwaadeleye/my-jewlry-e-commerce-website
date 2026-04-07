@@ -137,20 +137,98 @@ function updateCartUI() {
     cartFooterEl.style.display = "block";
   }
 }
+// ─────────────────────────────────────────────────────────────
+// CHECKOUT MODAL
+// ─────────────────────────────────────────────────────────────
+function openCheckout() {
+  if (cart.length === 0) {
+    showToast("❌ Your cart is empty!", "error");
+    return;
+  }
+  const total = cart.reduce((a, i) => a + i.price * i.qty, 0);
+  const count = cart.reduce((a, i) => a + i.qty, 0);
+  $("checkoutTotal").textContent    = formatPrice(total);
+  $("checkoutItemCount").textContent = count + " item" + (count > 1 ? "s" : "");
+  $("checkoutOverlay").classList.add("open");
+}
+window.openCheckout = openCheckout;
 
-window.checkout = function () {
-  const msg = encodeURIComponent(
-    "Hello Beauty's Jewelry! I'd like to order:\n" +
-    cart.map(i => `• ${i.name} x${i.qty} — ${formatPrice(i.price * i.qty)}`).join("\n") +
-    `\n\nTotal: ${formatPrice(cart.reduce((a,i)=>a+i.price*i.qty,0))}`
-  );
-  window.open(`https://wa.me/2348107106032?text=${msg}`, "_blank");
+function closeCheckout() {
+  $("checkoutOverlay").classList.remove("open");
+}
+window.closeCheckout = closeCheckout;
+
+// Close checkout when clicking backdrop
+$("checkoutOverlay").addEventListener("click", e => {
+  if (e.target === $("checkoutOverlay")) closeCheckout();
+});
+
+// ─────────────────────────────────────────────────────────────
+// PAYSTACK PAYMENT
+// ─────────────────────────────────────────────────────────────
+window.proceedToPaystack = function () {
+  const name  = $("customer-name").value.trim();
+  const email = $("customer-email").value.trim();
+  const phone = $("customer-phone").value.trim();
+
+  if (!name)  { showToast("❌ Please enter your name", "error"); return; }
+  if (!email || !email.includes("@")) { showToast("❌ Please enter a valid email", "error"); return; }
+  if (!phone) { showToast("❌ Please enter your phone number", "error"); return; }
+
+  const total = cart.reduce((a, i) => a + i.price * i.qty, 0);
+
+  const handler = PaystackPop.setup({
+    key:      "pk_test_3ca2e6b4b981a5e00177090bdc0edce0b6fc3ffc",
+    email:    email,
+    amount:   total * 100,  // Paystack uses kobo
+    currency: "NGN",
+    ref:      "beauty_" + Date.now(),
+    metadata: {
+      custom_fields: [
+        { display_name: "Customer Name",  variable_name: "customer_name",  value: name  },
+        { display_name: "Phone Number",   variable_name: "phone_number",   value: phone }
+      ]
+    },
+    callback: function (response) {
+      closeCheckout();
+      closeCart();
+      showToast("✅ Payment successful! Ref: " + response.reference);
+      saveOrder(response.reference, name, email, phone);
+      cart = [];
+      updateCartUI();
+    },
+    onClose: function () {
+      showToast("Payment window closed.", "error");
+    }
+  });
+
+  handler.openIframe();
 };
 
-window.payNow = function (product) {
-  const msg = encodeURIComponent(`Hello Beauty's Jewelry! I'd like to buy:\n• ${product.name} — ${formatPrice(product.price)}\n\nPlease assist me with payment.`);
-  window.open(`https://wa.me/2348107106032?text=${msg}`, "_blank");
-};
+// ─────────────────────────────────────────────────────────────
+// SAVE ORDER TO FIRESTORE
+// ─────────────────────────────────────────────────────────────
+async function saveOrder(reference, name, email, phone) {
+  try {
+    const { db } = await import("./firebase.js");
+    const { collection, addDoc } = await import(
+      "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+    );
+    await addDoc(collection(db, "orders"), {
+      reference,
+      customerName:  name,
+      customerEmail: email,
+      customerPhone: phone,
+      items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty })),
+      total: cart.reduce((a, i) => a + i.price * i.qty, 0),
+      status: "paid",
+      date:   new Date().toISOString()
+    });
+    console.log("✅ Order saved to Firestore");
+  } catch (err) {
+    console.error("Order save failed:", err);
+  }
+}
 
 // ─────────────────────────────────────────────────────────────
 // WISHLIST

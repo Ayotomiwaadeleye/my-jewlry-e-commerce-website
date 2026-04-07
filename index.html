@@ -340,7 +340,8 @@
       <span>Total</span>
       <span id="cartTotal">₦0</span>
     </div>
-    <button class="cart-checkout" onclick="checkout()">Proceed to Checkout via WhatsApp</button>
+
+    <button id="paystack-btn" class="cart-checkout" onclick="openCheckout()">Proceed to Checkout</button>
   </div>
 </div>
 
@@ -350,6 +351,45 @@
 ══════════════════════════════════════════════════ -->
 <div class="toast" id="toast" role="alert"></div>
 
+
+<!-- ══════════════════════════════════════════════════
+     CHECKOUT MODAL
+══════════════════════════════════════════════════ -->
+<div class="admin-overlay" id="checkoutOverlay">
+  <div class="admin-login-box" style="max-width:480px">
+    <button class="modal-close" onclick="closeCheckout()" aria-label="Close">&times;</button>
+    <h2 style="font-size:1.6rem;margin-bottom:6px">💎 Checkout</h2>
+    <p style="margin-bottom:24px">Enter your details to complete payment</p>
+
+    <div class="form-group">
+      <label for="customer-name">Full Name</label>
+      <input type="text" id="customer-name" placeholder="e.g. Fatima Bello" required>
+    </div>
+    <div class="form-group">
+      <label for="customer-email">Email Address</label>
+      <input type="email" id="customer-email" placeholder="e.g. fatima@gmail.com" required>
+    </div>
+    <div class="form-group">
+      <label for="customer-phone">Phone Number</label>
+      <input type="tel" id="customer-phone" placeholder="e.g. 08012345678" required>
+    </div>
+
+    <div style="background:var(--purple-light);border-radius:12px;padding:16px;margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;font-size:.9rem;color:var(--text-muted);margin-bottom:6px">
+        <span>Items</span>
+        <span id="checkoutItemCount">0 items</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:1.1rem;font-weight:700;color:var(--purple-dark)">
+        <span>Total</span>
+        <span id="checkoutTotal">₦0</span>
+      </div>
+    </div>
+
+    <button class="login-btn" onclick="proceedToPaystack()">
+      <i class="fas fa-lock"></i> Pay Securely with Paystack
+    </button>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════════════════
      ADMIN OVERLAY  (login + panel share one overlay)
@@ -569,6 +609,7 @@
      type="module" is required for Firebase ES imports
 ══════════════════════════════════════════════════ -->
 <script type="module" src="script.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
 
 </body>
 </html>
