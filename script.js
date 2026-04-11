@@ -99,6 +99,13 @@ window.closeCart = closeCart;
 $("cartBtn").addEventListener("click", openCart);
 $("cartClose").addEventListener("click", closeCart);
 
+// Mobile cart button
+const mobileCartBtn = document.getElementById("mobileCartBtn");
+const mobileCartCount = document.getElementById("mobileCartCount");
+if (mobileCartBtn) {
+  mobileCartBtn.addEventListener("click", openCart);
+}
+
 function addToCart(product) {
   const existing = cart.find(i => i.id === product.id);
   if (existing) existing.qty++;
@@ -187,7 +194,8 @@ window.removeFromCart = removeFromCart;
 function updateCartUI() {
   const total = cart.reduce((a, i) => a + i.price * i.qty, 0);
   const count = cart.reduce((a, i) => a + i.qty, 0);
-  cartCountEl.textContent = count;
+ cartCountEl.textContent = count;
+  if (mobileCartCount) mobileCartCount.textContent = count;
 
   if (cart.length === 0) {
     cartItemsEl.innerHTML = `<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p><p style="font-size:.82rem;margin-top:8px">Add some beautiful pieces!</p></div>`;

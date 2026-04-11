@@ -635,3 +635,27 @@ footer { background:var(--purple-dark); color:white; padding:72px 24px 32px; }
     padding-bottom: 32px;
   }
 }
+
+/* Mobile cart button in header */
+.mobile-cart-btn {
+  display: none; /* hidden on desktop */
+  position: relative;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+@media (max-width: 768px) {
+  .mobile-cart-btn {
+    display: flex; /* show on mobile */
+  }
+}
