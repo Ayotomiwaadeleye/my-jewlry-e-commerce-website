@@ -105,9 +105,78 @@ function addToCart(product) {
   else cart.push({ ...product, qty: 1 });
   updateCartUI();
   showToast(`✨ ${product.name} added to cart!`);
-  openCart();
+  // cart does NOT open automatically
 }
 window.addToCart = addToCart;
+
+// Pay Now — single product checkout (bypasses cart)
+window.payNow = function(product) {
+  // Temporarily store cart, replace with single item
+  const savedCart = [...cart];
+
+  // Set cart to just this one product for payment
+  cart = [{ ...product, qty: 1 }];
+
+  const total = product.price;
+  const count = 1;
+
+  // Fill checkout modal summary
+  $("checkoutTotal").textContent     = formatPrice(total);
+  $("checkoutItemCount").textContent = "1 item";
+
+  // Open checkout modal
+  $("checkoutOverlay").classList.add("open");
+
+  // Override proceedToPaystack for this single product
+  // Restore original cart after payment (success or close)
+  const originalCart = savedCart;
+
+  const originalProceed = window.proceedToPaystack;
+  window.proceedToPaystack = function() {
+    const name  = $("customer-name").value.trim();
+    const email = $("customer-email").value.trim();
+    const phone = $("customer-phone").value.trim();
+
+    if (!name)  { showToast("❌ Please enter your name", "error"); return; }
+    if (!email || !email.includes("@")) { showToast("❌ Please enter a valid email", "error"); return; }
+    if (!phone) { showToast("❌ Please enter your phone number", "error"); return; }
+
+    const handler = PaystackPop.setup({
+      key:      "pk_test_3ca2e6b4b981a5e00177090bdc0edce0b6fc3ffc",
+      email:    email,
+      amount:   total * 100,
+      currency: "NGN",
+      ref:      "beauty_paynow_" + Date.now(),
+      metadata: {
+        custom_fields: [
+          { display_name: "Customer Name", variable_name: "customer_name", value: name },
+          { display_name: "Phone Number",  variable_name: "phone_number",  value: phone },
+          { display_name: "Product",       variable_name: "product_name",  value: product.name }
+        ]
+      },
+      callback: function(response) {
+        closeCheckout();
+        showToast("✅ Payment successful! Ref: " + response.reference);
+        // Save order with just this product
+        const singleItem = [{ id: product.id, name: product.name, price: product.price, qty: 1 }];
+        saveOrder(response.reference, name, email, phone, singleItem, total);
+        // Restore original cart
+        cart = originalCart;
+        updateCartUI();
+        window.proceedToPaystack = originalProceed;
+      },
+      onClose: function() {
+        // Restore original cart if closed
+        cart = originalCart;
+        updateCartUI();
+        window.proceedToPaystack = originalProceed;
+        showToast("Payment window closed.");
+      }
+    });
+    handler.openIframe();
+  };
+};
+
 
 function removeFromCart(id) {
   cart = cart.filter(i => i.id !== id);
@@ -193,7 +262,7 @@ window.proceedToPaystack = function () {
       closeCheckout();
       closeCart();
       showToast("✅ Payment successful! Ref: " + response.reference);
-      saveOrder(response.reference, name, email, phone);
+      saveOrder(response.reference, name, email, phone, null, null); // save order with full cart details
       cart = [];
       updateCartUI();
     },
