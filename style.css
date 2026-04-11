@@ -123,6 +123,66 @@ header.scrolled {
 }
 .admin-nav-link:hover { background: rgba(255,255,255,.22) !important; }
 
+/* ── DESKTOP CART ICON ── */
+.desktop-cart-icon {
+  position: relative;
+  cursor: pointer;
+  color: white;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: opacity var(--T);
+}
+.desktop-cart-icon:hover { opacity: 0.8; }
+
+/* ── MOBILE CART ICON ── */
+.mobile-cart-icon {
+  display: none;
+  position: relative;
+  cursor: pointer;
+  color: white;
+  font-size: 22px;
+  margin-left: auto;
+  margin-right: 4px;
+  padding: 4px;
+}
+
+/* ── SHARED BADGE (used on both) ── */
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #EF4444;
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid var(--purple);
+  line-height: 1;
+}
+
+/* ── DRAWER SOCIALS ── */
+.drawer-socials {
+  margin-top: auto;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  gap: 12px;
+}
+
+/* Show mobile cart, hide desktop cart on mobile */
+@media (max-width: 768px) {
+  .mobile-cart-icon { display: flex; }
+  .desktop-cart-icon { display: none; }
+}
+
 /* Hamburger */
 .hamburger {
   display: none; flex-direction: column; gap: 5px; cursor: pointer;
@@ -636,26 +696,3 @@ footer { background:var(--purple-dark); color:white; padding:72px 24px 32px; }
   }
 }
 
-/* Mobile cart button in header */
-.mobile-cart-btn {
-  display: none; /* hidden on desktop */
-  position: relative;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  margin-left: auto;
-  margin-right: 12px;
-}
-
-@media (max-width: 768px) {
-  .mobile-cart-btn {
-    display: flex; /* show on mobile */
-  }
-}

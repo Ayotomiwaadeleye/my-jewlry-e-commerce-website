@@ -194,8 +194,12 @@ window.removeFromCart = removeFromCart;
 function updateCartUI() {
   const total = cart.reduce((a, i) => a + i.price * i.qty, 0);
   const count = cart.reduce((a, i) => a + i.qty, 0);
- cartCountEl.textContent = count;
-  if (mobileCartCount) mobileCartCount.textContent = count;
+cartCountEl.textContent = count;
+cartCountEl.style.display = count === 0 ? 'none' : 'flex';
+if (mobileCartCount) {
+  mobileCartCount.textContent = count;
+  mobileCartCount.style.display = count === 0 ? 'none' : 'flex';
+}
 
   if (cart.length === 0) {
     cartItemsEl.innerHTML = `<div class="cart-empty"><i class="fas fa-shopping-bag"></i><p>Your cart is empty</p><p style="font-size:.82rem;margin-top:8px">Add some beautiful pieces!</p></div>`;

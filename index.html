@@ -23,16 +23,16 @@
 ══════════════════════════════════════════════════ -->
 <header id="header">
   <div class="header-inner">
-<!-- Hamburger (mobile) -->
+<<!-- Hamburger (mobile) -->
 <button class="hamburger" id="hamburger" aria-label="Open menu">
   <span></span><span></span><span></span>
 </button>
 
-<!-- Mobile cart icon (only shows on mobile) -->
-<button class="mobile-cart-btn" id="mobileCartBtn" aria-label="Shopping cart">
-  <i class="fas fa-bag-shopping"></i>
-  <div class="cart-count" id="mobileCartCount">0</div>
-</button>
+<!-- Mobile cart icon -->
+<div class="mobile-cart-icon" id="mobileCartBtn" aria-label="Shopping cart">
+  <i class="fas fa-cart-shopping"></i>
+  <span class="cart-badge" id="mobileCartCount">0</span>
+</div>
 
     <!-- Logo -->
     <a href="#home" class="logo">
@@ -56,11 +56,10 @@
       </a>
 
       <!-- Cart -->
-      <button class="cart-btn" id="cartBtn" aria-label="Shopping cart">
-        <i class="fas fa-bag-shopping"></i>
-        <span>Cart</span>
-        <div class="cart-count" id="cartCount">0</div>
-      </button>
+      <div class="desktop-cart-icon" id="cartBtn" aria-label="Shopping cart">
+    <i class="fas fa-cart-shopping"></i>
+    <span class="cart-badge" id="cartCount">0</span>
+    </div>
     </nav>
   </div>
 </header>
@@ -75,11 +74,12 @@
   <a href="#" id="adminMobileLink" onclick="closeDrawer()">
     <i class="fas fa-lock"></i> Admin
   </a>
-  <div style="margin-top:auto;padding-top:32px;display:flex;gap:12px">
-    <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-  </div>
+  <div class="drawer-socials">
+  <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+  <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+  <a href="https://wa.me/2348107106032" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>
+</div>
 </div>
 
 
