@@ -745,29 +745,37 @@ a.footer-text { color: white; font-weight: bold; line-height: 1.7; }
   }
   .product-price-old { font-size: .7rem; }
 
-  /* Buttons — side by side, compact */
+  /* =============================================
+     MOBILE ONLY — Product Card Buttons
+     Stacked vertically, full-width (Jumia style)
+     Does NOT affect desktop layout at all
+     ============================================= */
+
+  /* Stack buttons vertically */
   .product-actions {
-    flex-direction: row;
-    gap: 5px;
-  }
-  .btn-cart {
-    flex: 1;
-    padding: 7px 2px;
-    font-size: .6rem;
-    letter-spacing: 0;
-    gap: 3px;
-    border-width: 1.5px;
-  }
-  .btn-pay {
-    flex: 1;
-    padding: 7px 2px;
-    font-size: .6rem;
-    letter-spacing: 0;
-    gap: 3px;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  /* Hide button text, show only icon on very small screens */
-  .btn-cart span, .btn-pay span { display: none; }
+  /* Full-width shared button base */
+  .btn-cart,
+  .btn-pay {
+    flex: unset;
+    width: 100%;
+    padding: 11px 16px;
+    font-size: .78rem;
+    letter-spacing: .04em;
+    border-radius: 8px;
+    gap: 6px;
+    border-width: 2px;
+    justify-content: center;
+  }
+
+  /* Restore button text */
+  .btn-cart span,
+  .btn-pay span {
+    display: inline;
+  }
 }
 @media (max-width: 768px) {
   .cart-sidebar {
