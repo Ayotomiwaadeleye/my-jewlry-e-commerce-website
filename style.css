@@ -174,7 +174,7 @@ header.scrolled {
 
 /* ── DRAWER SOCIALS ── */
 .drawer-socials {
-  margin-top: auto;
+  margin-top: 32px;   /* fixed gap instead of auto-push to bottom */
   padding-top: 20px;
   padding-bottom: 10px;
   display: flex;
@@ -210,6 +210,12 @@ header.scrolled {
   .desktop-cart-icon {
     display: none;
   }
+  /* Fix footer logo on mobile — remove absolute centering from header */
+.footer-brand .logo {
+  position: static;
+  transform: none;
+  left: auto;
+}
 }
 
 /* Hamburger */
