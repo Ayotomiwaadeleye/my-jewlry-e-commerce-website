@@ -747,17 +747,14 @@ a.footer-text { color: white; font-weight: bold; line-height: 1.7; }
 
   /* =============================================
      MOBILE ONLY — Product Card Buttons
-     Stacked vertically, full-width (Jumia style)
-     Does NOT affect desktop layout at all
+     Stacked vertically, full-width, aligned
      ============================================= */
 
-  /* Stack buttons vertically */
   .product-actions {
     flex-direction: column;
     gap: 8px;
   }
 
-  /* Full-width shared button base */
   .btn-cart,
   .btn-pay {
     flex: unset;
@@ -769,6 +766,12 @@ a.footer-text { color: white; font-weight: bold; line-height: 1.7; }
     gap: 6px;
     border-width: 2px;
     justify-content: center;
+    box-sizing: border-box;  /* ensures identical width calculation */
+  }
+
+  /* Hide bag icon — prevents text wrapping and keeps both buttons same height */
+  .btn-cart i {
+    display: none;
   }
 
   /* Restore button text */
