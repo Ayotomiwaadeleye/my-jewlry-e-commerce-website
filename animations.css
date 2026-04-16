@@ -1,0 +1,55 @@
+/* ============================================================
+   animations.css — Beauty's Jewelry Collection
+   Only: product card hover lift + badge shimmer
+   Add AFTER style.css in your <head>
+   ============================================================ */
+
+/* ── PRODUCT CARD HOVER LIFT ── */
+.product-card {
+  transition: transform 0.4s cubic-bezier(.16,1,.3,1),
+              box-shadow 0.4s cubic-bezier(.16,1,.3,1);
+}
+.product-card:hover {
+  transform: translateY(-10px) scale(1.012);
+  box-shadow: 0 20px 56px rgba(107,33,168,.18), 0 4px 16px rgba(0,0,0,.06);
+}
+
+/* Image zoom on hover */
+.product-card-image img {
+  transition: transform 0.7s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+.product-card:hover .product-card-image img {
+  transform: scale(1.09);
+}
+
+/* ── BADGE SHIMMER (Sale, New, Coming Soon, etc.) ── */
+.product-badge {
+  position: absolute;
+  overflow: hidden;
+}
+.product-badge::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.45) 50%, transparent 60%);
+  animation: badgeShimmer 3.5s ease-in-out infinite;
+}
+@keyframes badgeShimmer {
+  0%, 70%, 100% { left: -60%; }
+  40%           { left: 120%; }
+}
+
+/* Disable hover lift on touch screens */
+@media (max-width: 768px) {
+  .product-card:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+  }
+  .product-card:hover .product-card-image img {
+    transform: none;
+  }
+}

@@ -437,6 +437,22 @@ function observeReveal() {
   document.querySelectorAll(".reveal:not(.visible)").forEach(el => io.observe(el));
 }
 
+function animateHeroWords(interval = 420) {
+  const words = document.querySelectorAll(".hero-title .word");
+
+  // First, remove active class from all words
+  words.forEach(word => word.classList.remove("active"));
+
+  // Then animate them in sequence
+  words.forEach((word, index) => {
+    setTimeout(() => word.classList.add("active"), index * interval);
+  });
+
+  // Calculate total animation time and restart the loop
+  const totalAnimationTime = words.length * interval + 2000; // Add 2 second pause
+  setTimeout(() => animateHeroWords(interval), totalAnimationTime);
+}
+
 // ─────────────────────────────────────────────────────────────
 // ADMIN AUTH STATE
 // ─────────────────────────────────────────────────────────────
@@ -684,7 +700,58 @@ window.confirmDelete = function (id, storagePath, name) {
 };
 
 // ─────────────────────────────────────────────────────────────
+// TESTIMONIALS CAROUSEL
+// ─────────────────────────────────────────────────────────────
+function initTestimonialsCarousel() {
+  const wrapper = document.querySelector('.testimonials-wrapper');
+  if (!wrapper) return;
+
+  let currentIndex = 0;
+  const gap = 24;
+
+  function getCardWidth() {
+    const width = window.innerWidth;
+    if (width <= 768) return width - 40; // full width minus padding
+    if (width <= 1024) return (width - 48 - gap) / 2; // 2 cards
+    return 280; // desktop 4 cards
+  }
+
+  function slide() {
+    const cardWidth = getCardWidth();
+    currentIndex++;
+    
+    // When we reach the end, instantly jump back to start (seamless loop)
+    if (currentIndex >= wrapper.children.length / 2) {
+      wrapper.style.transition = 'none';
+      wrapper.style.transform = `translateX(0)`;
+      currentIndex = 0;
+      // Force reflow
+      wrapper.offsetHeight;
+      // Re-enable transition
+      setTimeout(() => {
+        wrapper.style.transition = 'transform 0.8s ease';
+      }, 10);
+    } else {
+      const translateX = -currentIndex * (cardWidth + gap);
+      wrapper.style.transform = `translateX(${translateX}px)`;
+    }
+  }
+
+  // Auto slide every 4 seconds
+  setInterval(slide, 5000);
+
+  // Update on resize
+  window.addEventListener('resize', () => {
+    // Reset position on resize to avoid misalignment
+    currentIndex = 0;
+    wrapper.style.transform = 'translateX(0)';
+  });
+}
+
+// ─────────────────────────────────────────────────────────────
 // INIT
 // ─────────────────────────────────────────────────────────────
 loadProducts();
 observeReveal();
+animateHeroWords(420);
+initTestimonialsCarousel();
