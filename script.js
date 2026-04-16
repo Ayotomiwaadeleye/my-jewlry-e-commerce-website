@@ -367,6 +367,15 @@ function renderProducts() {
       </div>
     </div>`).join("");
   observeReveal();
+  attachProductCardTouchEffect();
+}
+
+function attachProductCardTouchEffect() {
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('touchstart', () => card.classList.add('touch-active'), { passive: true });
+    card.addEventListener('touchend', () => card.classList.remove('touch-active'));
+    card.addEventListener('touchcancel', () => card.classList.remove('touch-active'));
+  });
 }
 
 function categoryLabel(c) {
