@@ -367,15 +367,6 @@ function renderProducts() {
       </div>
     </div>`).join("");
   observeReveal();
-  attachProductCardTouchEffect();
-}
-
-function attachProductCardTouchEffect() {
-  document.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('touchstart', () => card.classList.add('touch-active'), { passive: true });
-    card.addEventListener('touchend', () => card.classList.remove('touch-active'));
-    card.addEventListener('touchcancel', () => card.classList.remove('touch-active'));
-  });
 }
 
 function categoryLabel(c) {
@@ -448,18 +439,9 @@ function observeReveal() {
 
 function animateHeroWords(interval = 420) {
   const words = document.querySelectorAll(".hero-title .word");
-
-  // First, remove active class from all words
-  words.forEach(word => word.classList.remove("active"));
-
-  // Then animate them in sequence
   words.forEach((word, index) => {
     setTimeout(() => word.classList.add("active"), index * interval);
   });
-
-  // Calculate total animation time and restart the loop
-  const totalAnimationTime = words.length * interval + 2000; // Add 2 second pause
-  setTimeout(() => animateHeroWords(interval), totalAnimationTime);
 }
 
 // ─────────────────────────────────────────────────────────────
