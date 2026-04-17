@@ -135,9 +135,17 @@ export async function deleteProduct(id, storagePath) {
  * @returns {Promise<{url, path}>} — public download URL + storage path
  */
 export async function uploadProductImage(file, onProgress) {
-  const path       = `products/${Date.now()}_${file.name}`;
+  // Auto-compress + convert to WebP before uploading
+  const compressed = await imageCompression(file, {
+    maxSizeMB: 0.4,
+    maxWidthOrHeight: 800,
+    useWebWorker: true,
+    fileType: "image/webp"
+  });
+
+  const path       = `products/${Date.now()}_${file.name.replace(/\.[^.]+$/, ".webp")}`;
   const storageRef = ref(storage, path);
-  const task       = uploadBytesResumable(storageRef, file);
+  const task       = uploadBytesResumable(storageRef, compressed);
 
   return new Promise((resolve, reject) => {
     task.on(

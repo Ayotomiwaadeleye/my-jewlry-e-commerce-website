@@ -439,9 +439,39 @@ function observeReveal() {
 
 function animateHeroWords(interval = 420) {
   const words = document.querySelectorAll(".hero-title .word");
-  words.forEach((word, index) => {
-    setTimeout(() => word.classList.add("active"), index * interval);
-  });
+  let cycle = 0;
+
+  function runCycle() {
+    // Reset all words
+    words.forEach(w => {
+      w.classList.remove("active", "exit");
+    });
+
+    // Stagger each word in
+    words.forEach((word, index) => {
+      setTimeout(() => {
+        word.classList.add("active");
+      }, index * interval);
+    });
+
+    // After all words are visible, fade them out one by one, then restart
+    const totalIn  = words.length * interval;
+    const holdTime = 1000; // how long all words stay fully visible
+
+    words.forEach((word, index) => {
+      setTimeout(() => {
+        word.classList.add("exit");
+        setTimeout(() => {
+          word.classList.remove("active", "exit");
+        }, 350);
+      }, totalIn + holdTime + index * (interval * 0.6));
+    });
+
+    const totalCycleTime = totalIn + holdTime + words.length * (interval * 0.6) + 500;
+    setTimeout(runCycle, totalCycleTime);
+  }
+
+  runCycle();
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -738,6 +768,71 @@ function initTestimonialsCarousel() {
     wrapper.style.transform = 'translateX(0)';
   });
 }
+// ─────────────────────────────────────────────────────────────
+// COUNTER ANIMATION (About stats)
+// ─────────────────────────────────────────────────────────────
+function initCounterAnimation() {
+  const counters = [
+    { el: null, target: 1000, suffix: "k+", display: "1k+",  label: "Pieces"    },
+    { el: null, target: 450,  suffix: "+",  display: "450+", label: "Customers" },
+    { el: null, target: 3,    suffix: "+",  display: "3+",   label: "Years"     },
+  ];
+
+  // Match stat elements by their label
+  document.querySelectorAll(".stat-item").forEach(item => {
+    const labelEl = item.querySelector(".stat-label");
+    const numEl   = item.querySelector(".stat-num");
+    if (!labelEl || !numEl) return;
+    const match = counters.find(c => c.label === labelEl.textContent.trim());
+    if (match) match.el = numEl;
+  });
+
+  function animateCounter(el, target, suffix, isK) {
+    const duration = 1800;
+    const startTime = performance.now();
+
+    function tick(now) {
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased    = 1 - Math.pow(1 - progress, 3);
+      const current  = Math.floor(eased * target);
+
+      if (isK) {
+        el.textContent = current >= 1000
+          ? "1k+" : current + "+";
+      } else {
+        el.textContent = current + suffix;
+      }
+
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = isK ? "1k+" : target + suffix;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Only trigger once when the about section scrolls into view
+  const aboutSection = document.querySelector(".about-section");
+  if (!aboutSection) return;
+
+  let fired = false;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !fired) {
+        fired = true;
+        counters.forEach(c => {
+          if (!c.el) return;
+          const isK = c.label === "Pieces";
+          animateCounter(c.el, c.target, c.suffix, isK);
+        });
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+
+  io.observe(aboutSection);
+}
 
 // ─────────────────────────────────────────────────────────────
 // INIT
@@ -746,3 +841,22 @@ loadProducts();
 observeReveal();
 animateHeroWords(420);
 initTestimonialsCarousel();
+initCounterAnimation();
+initMobileTapEffect();
+
+function initMobileTapEffect() {
+  document.addEventListener('touchstart', e => {
+    const card = e.target.closest('.product-card');
+    if (card) card.classList.add('tapped');
+  }, { passive: true });
+
+  document.addEventListener('touchend', e => {
+    const card = e.target.closest('.product-card');
+    if (card) setTimeout(() => card.classList.remove('tapped'), 350);
+  }, { passive: true });
+
+  document.addEventListener('touchcancel', e => {
+    const card = e.target.closest('.product-card');
+    if (card) card.classList.remove('tapped');
+  }, { passive: true });
+}

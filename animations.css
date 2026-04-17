@@ -43,7 +43,7 @@
   40%           { left: 120%; }
 }
 
-/* Disable hover lift on touch screens */
+/* Disable CSS hover on touch screens (hover sticks on mobile) */
 @media (max-width: 768px) {
   .product-card:hover {
     transform: none;
@@ -51,5 +51,16 @@
   }
   .product-card:hover .product-card-image img {
     transform: none;
+  }
+}
+
+/* Tap lift effect — triggered by JS .tapped class */
+@media (max-width: 768px) {
+  .product-card.tapped {
+    transform: translateY(-6px) scale(1.012) !important;
+    box-shadow: 0 14px 40px rgba(107,33,168,.18), 0 4px 12px rgba(0,0,0,.06) !important;
+  }
+  .product-card.tapped .product-card-image img {
+    transform: scale(1.06) !important;
   }
 }
