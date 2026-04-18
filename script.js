@@ -428,47 +428,49 @@ function getDemoProducts() {
 // ─────────────────────────────────────────────────────────────
 // SCROLL REVEAL (Intersection Observer)
 // ─────────────────────────────────────────────────────────────
+// AFTER
 function observeReveal() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+      } else {
+        e.target.classList.remove("visible"); // ← re-hides when scrolled away
+      }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll(".reveal:not(.visible)").forEach(el => io.observe(el));
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 }
 
+ // AFTER
 function animateHeroWords(interval = 420) {
   const words = document.querySelectorAll(".hero-title .word");
-  let cycle = 0;
 
   function runCycle() {
     // Reset all words
-    words.forEach(w => {
-      w.classList.remove("active", "exit");
-    });
+    words.forEach(w => w.classList.remove("active", "exit"));
 
-    // Stagger each word in
+    // Stagger words IN one by one
     words.forEach((word, index) => {
       setTimeout(() => {
         word.classList.add("active");
       }, index * interval);
     });
 
-    // After all words are visible, fade them out one by one, then restart
     const totalIn  = words.length * interval;
-    const holdTime = 1000; // how long all words stay fully visible
+    const holdTime = 1200; // how long all words stay visible together
 
-    words.forEach((word, index) => {
-      setTimeout(() => {
+    // ALL words exit at the same time
+    setTimeout(() => {
+      words.forEach(word => {
         word.classList.add("exit");
-        setTimeout(() => {
-          word.classList.remove("active", "exit");
-        }, 350);
-      }, totalIn + holdTime + index * (interval * 0.6));
-    });
-
-    const totalCycleTime = totalIn + holdTime + words.length * (interval * 0.6) + 500;
-    setTimeout(runCycle, totalCycleTime);
+      });
+      // After exit animation finishes, clean up and restart
+      setTimeout(() => {
+        words.forEach(word => word.classList.remove("active", "exit"));
+        setTimeout(runCycle, 300); // brief pause before restarting
+      }, 400);
+    }, totalIn + holdTime);
   }
 
   runCycle();
@@ -833,6 +835,20 @@ function initCounterAnimation() {
 
   io.observe(aboutSection);
 }
+
+window.toggleAdminPassword = function(btn) {
+  const input = btn.closest('div').querySelector('input');
+  const icon = btn.querySelector('i');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'fas fa-eye-slash';
+    btn.style.color = 'var(--purple)';
+  } else {
+    input.type = 'password';
+    icon.className = 'fas fa-eye';
+    btn.style.color = 'var(--text-muted)';
+  }
+};
 
 // ─────────────────────────────────────────────────────────────
 // INIT

@@ -103,7 +103,7 @@
       <span class="word">Your</span>
       <span class="word"><em>Story</em></span><br>
       <span class="word">in</span>
-      <span class="word">Every</span>
+      <span class="word"><em>Every</em></span>
       <span class="word">Piece</span>
     </h1>
     <p class="hero-subtitle">
@@ -543,24 +543,30 @@
 <div class="admin-overlay" id="adminOverlay">
 
   <!-- ── ADMIN LOGIN BOX ── -->
-  <div class="admin-login-box" id="adminLoginBox">
-    <button class="modal-close" onclick="closeAdmin()" aria-label="Close">&times;</button>
-    <h2><img src="Images/brand-logo.png" alt="Logo" style="height:60px;width:auto;vertical-align:middle;margin-right:12px"> Admin Login</h2>
-    <p>Sign in to manage your jewelry collection</p>
+ <div class="admin-login-box" id="adminLoginBox">
+  <button class="modal-close" onclick="closeAdmin()" aria-label="Close">&times;</button>
+  <h2><img src="Images/brand-logo.png" alt="Logo" style="height:60px;width:auto;vertical-align:middle;margin-right:12px"> Admin Login</h2>
+  <p>Sign in to manage your jewelry collection</p>
 
-    <form id="loginForm" novalidate>
-      <div class="form-group">
-        <label for="adminEmail">Email Address</label>
-        <input type="email" id="adminEmail" placeholder="admin@beautyjewelry.com" required>
+  <form id="loginForm" novalidate>
+    <div class="form-group">
+      <label for="adminEmail">Email Address</label>
+      <input type="email" id="adminEmail" placeholder="admin@beautyjewelry.com" required>
+    </div>
+    <div class="form-group">
+      <label for="adminPassword">Password</label>
+      <div style="position:relative">
+        <input type="password" id="adminPassword" placeholder="••••••••" required style="padding-right:48px">
+        <button type="button" onclick="toggleAdminPassword(this)"
+          style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;padding:4px;transition:color 0.2s">
+          <i class="fas fa-eye"></i>
+        </button>
       </div>
-      <div class="form-group">
-        <label for="adminPassword">Password</label>
-        <input type="password" id="adminPassword" placeholder="••••••••" required>
-      </div>
-      <button type="submit" class="login-btn">Sign In</button>
-      <div class="login-error" id="adminLoginError"></div>
-    </form>
-  </div>
+    </div>
+    <button type="submit" class="login-btn">Sign In</button>
+    <div class="login-error" id="adminLoginError"></div>
+  </form>
+</div>
 
   <!-- ── ADMIN PANEL (shown after login) ── -->
   <div class="admin-panel" id="adminPanelBox" style="display:none">
@@ -754,6 +760,8 @@
      SCRIPTS
      type="module" is required for Firebase ES imports
 ══════════════════════════════════════════════════ -->
+
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
 <script type="module" src="script.js"></script>
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
