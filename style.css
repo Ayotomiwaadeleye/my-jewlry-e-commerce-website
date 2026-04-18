@@ -616,8 +616,8 @@ a.footer-text { color: white; font-weight: bold; line-height: 1.7; }
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: var(--purple-dark);
-  color: white;
+  background: white;
+  color: var(--purple-dark);
   padding: 12px 28px;
   border-radius: 50px;
   font-size: .88rem;
@@ -626,7 +626,7 @@ a.footer-text { color: white; font-weight: bold; line-height: 1.7; }
   opacity: 0;
   pointer-events: none;
   transition: all .4s ease;
-  box-shadow: 0 4px 20px rgba(76,29,149,.3);
+  box-shadow: 0 4px 20px rgba(76,29,149,.4), 0 0 0 1px rgba(107,33,168,.15);
   white-space: nowrap;
   max-width: 90vw;
   text-align: center;
